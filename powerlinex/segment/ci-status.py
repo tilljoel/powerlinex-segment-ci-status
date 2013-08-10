@@ -15,12 +15,17 @@ def readlines(cmd, cwd):
 def version(pl, segment_info):
     try:
         # ci-status --reporter=minimal
-        for line in readlines(["ci-status", "--reporter=minimal"], segment_info['getcwd']()):
-            # Now to process line
-            return [{
-                'contents': 'success',
-                'highlight_group': ['ci-status', 'virtualenv']
-            }]
+        for line in readlines(["sh", "/Users/joel/bin/ci-status-wrapper.sh"], segment_info['getcwd']()):
+            if line == 'success':
+                return [{
+                    'contents': 'success',
+                    'highlight_group': ['ci-status', 'virtualenv']
+                }]
+            else:
+                return [{
+                    'contents': 'failure',
+                    'highlight_group': ['ci-status', 'virtualenv']
+                }]
     except OSError as e:
         if e.errno == 2:
             pass
